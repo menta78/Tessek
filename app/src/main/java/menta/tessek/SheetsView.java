@@ -8,7 +8,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
+
 import java.io.File;
+import java.util.ArrayList;
 
 public class SheetsView extends AppCompatActivity {
 
@@ -35,6 +39,11 @@ public class SheetsView extends AppCompatActivity {
 
         appData = new AppData();
         appData.setup(dbFilePath);
+
+        ArrayList<String> sheets = appData.getSheetsList();
+        ArrayAdapter<String> dataAdapter=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_spinner_item,sheets);
+        GridView gvSheets = (GridView)findViewById(R.id.gridViewSheet);
+        gvSheets.setAdapter(dataAdapter);
     }
 
     @Override
