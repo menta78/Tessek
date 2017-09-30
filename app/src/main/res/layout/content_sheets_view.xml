@@ -13,7 +13,10 @@
         android:layout_width="368dp"
         android:layout_height="495dp"
         android:background="@android:color/background_dark"
+        android:listSelector="@android:drawable/list_selector_background"
         android:numColumns="1"
-        tools:layout_editor_absoluteX="8dp"
+        android:verticalSpacing="12dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="6dp"
         tools:layout_editor_absoluteY="0dp" />
 </android.support.constraint.ConstraintLayout>
