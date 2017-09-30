@@ -1,15 +1,18 @@
 package menta.tessek;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,13 +29,6 @@ public class SheetsView extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         File dbFile = new File(getExternalFilesDir(null), "tessek.db");
         String dbFilePath = dbFile.getAbsolutePath();
@@ -44,6 +40,29 @@ public class SheetsView extends AppCompatActivity {
         ArrayAdapter<String> dataAdapter=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_spinner_item,sheets);
         GridView gvSheets = (GridView)findViewById(R.id.gridViewSheet);
         gvSheets.setAdapter(dataAdapter);
+
+        gvSheets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                String selectedSheet = ((TextView)v).getText().toString();
+                AlertDialog alertDialog = new AlertDialog.Builder(SheetsView.this).create();
+                alertDialog.setTitle("");
+                alertDialog.setMessage("View sheet " + selectedSheet + "?");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+            }
+        });
     }
 
     @Override
