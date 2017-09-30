@@ -39,7 +39,7 @@ public class SheetsView extends AppCompatActivity {
 
         ArrayList<String> sheets = appData.getSheetsList();
         ArrayAdapter<String> dataAdapter=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_spinner_item,sheets);
-        GridView gvSheets = (GridView)findViewById(R.id.gridViewSheet);
+        GridView gvSheets = (GridView)findViewById(R.id.gridViewSheets);
         gvSheets.setAdapter(dataAdapter);
 
         gvSheets.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -4,6 +4,7 @@ package menta.tessek; /**
 
 import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteStatement;
 
 import java.io.Serializable;
 
@@ -22,6 +23,13 @@ public class SqlConnectionManager implements Serializable {
     public Cursor getSheetsQuery(){
         SQLiteDatabase db = getDb();
         Cursor cr=db.rawQuery("SELECT * FROM sheet_headers",null);
+        return cr;
+    }
+
+    public Cursor getOneSheetQuery(String sheetId){
+        SQLiteDatabase db = getDb();
+        String queryTxt = "SELECT * FROM sheet_data WHERE sheet_id = ? ORDER BY rowid DESC";
+        Cursor cr = db.rawQuery(queryTxt, new String [] {sheetId});
         return cr;
     }
 

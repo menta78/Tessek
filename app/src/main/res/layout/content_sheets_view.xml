@@ -9,7 +9,7 @@
     tools:showIn="@layout/activity_sheets_view">
 
     <GridView
-        android:id="@+id/gridViewSheet"
+        android:id="@+id/gridViewSheets"
         android:layout_width="368dp"
         android:layout_height="495dp"
         android:background="@android:color/background_dark"
