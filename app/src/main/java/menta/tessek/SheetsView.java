@@ -2,6 +2,7 @@ package menta.tessek;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -44,14 +45,14 @@ public class SheetsView extends AppCompatActivity {
         gvSheets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                String selectedSheet = ((TextView)v).getText().toString();
+                final String selectedSheet = ((TextView)v).getText().toString();
                 AlertDialog alertDialog = new AlertDialog.Builder(SheetsView.this).create();
                 alertDialog.setTitle("");
                 alertDialog.setMessage("View sheet " + selectedSheet + "?");
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
+                                OneSheetView.start(SheetsView.this, selectedSheet, appData);
                             }
                         });
                 alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",

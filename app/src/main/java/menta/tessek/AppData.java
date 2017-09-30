@@ -2,6 +2,7 @@ package menta.tessek;
 
 import android.database.Cursor;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  * Created by lmentaschi on 25/09/17.
  */
 
-public class AppData {
+public class AppData implements Serializable {
 
     SqlConnectionManager sqlConnectionManager;
 
@@ -24,6 +25,7 @@ public class AppData {
         do {
           l.add(crs.getString(0));
         } while (crs.moveToNext());
+        crs.close();
         return l;
     }
 
