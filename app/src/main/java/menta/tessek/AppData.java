@@ -12,6 +12,10 @@ import java.util.ArrayList;
 
 public class AppData implements Serializable {
 
+    public static final String SHEET_ID = "sheet_id";
+    public static final String APP_DATA = "app_data";
+    public static final int REQUEST_CODE_ADD_LEARN_ITEM = 1000;
+
     SqlConnectionManager sqlConnectionManager;
 
     public void setup(String dbFilePath){
@@ -42,6 +46,10 @@ public class AppData implements Serializable {
         crs.close();
 
         return l;
+    }
+
+    public void insertLearnItem(String sheetId, String txt1, String txt2, long currentTimeMillis){
+
     }
 
 }
