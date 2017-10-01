@@ -52,7 +52,7 @@ public class OneSheetView extends AppCompatActivity {
 
     private void refreshViewNoFilter(){
         ArrayList<String> sheet = appData.getOneSheetList(sheetId);
-        ArrayAdapter<String> dataAdapter=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_spinner_item,sheet);
+        ArrayAdapter<String> dataAdapter=new ArrayAdapter<>(getApplicationContext(),R.layout.ts_text_view,sheet);
         GridView gvOneSheet = (GridView)findViewById(R.id.gridViewOneSheet);
         gvOneSheet.setAdapter(dataAdapter);
     }
