@@ -25,10 +25,11 @@ public class AppData implements Serializable {
     public ArrayList<String> getSheetsList(){
         ArrayList<String> l = new ArrayList<>();
         Cursor crs = this.sqlConnectionManager.getSheetsQuery();
-        crs.moveToFirst();
-        do {
-            l.add(crs.getString(0));
-        } while (crs.moveToNext());
+        if (crs.moveToFirst()) {
+            do {
+                l.add(crs.getString(0));
+            } while (crs.moveToNext());
+        }
         crs.close();
         return l;
     }
@@ -38,18 +39,19 @@ public class AppData implements Serializable {
 
         Cursor crs = sqlConnectionManager.getOneSheetQuery(sheetId);
 
-        crs.moveToFirst();
-        do {
-            l.add(crs.getString(2));
-            l.add(crs.getString(3));
-        } while (crs.moveToNext());
-        crs.close();
+        if (crs.moveToFirst()) {
+            do {
+                l.add(crs.getString(2));
+                l.add(crs.getString(3));
+            } while (crs.moveToNext());
+            crs.close();
+        }
 
         return l;
     }
 
-    public void insertLearnItem(String sheetId, String txt1, String txt2, long currentTimeMillis){
-
+    public void insertLearnItem(String sheetId, String txt1, String txt2){
+        sqlConnectionManager.insertLearnItem(sheetId, txt1, txt2);
     }
 
 }

@@ -7,6 +7,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.lang.Math.round;
 
 public class SqlConnectionManager implements Serializable {
 
@@ -31,6 +35,26 @@ public class SqlConnectionManager implements Serializable {
         String queryTxt = "SELECT * FROM sheet_data WHERE sheet_id = ? ORDER BY rowid DESC";
         Cursor cr = db.rawQuery(queryTxt, new String [] {sheetId});
         return cr;
+    }
+
+    public void insertLearnItem(String sheetId, String txt1, String txt2){
+        int tmstmp = round(System.currentTimeMillis() / 1000);
+        SQLiteDatabase db = getDb();
+        db.beginTransaction();
+        try {
+            String deleteQ = "DELETE FROM sheet_data WHERE " +
+                    "sheet_id=? AND sentence1=? AND sentence2=?";
+            db.execSQL(deleteQ, new String[]{sheetId, txt1, txt2});
+            String insertQ = "INSERT INTO sheet_data " +
+                    "(sheet_id, sentence1, sentence2, mod_date, learnt, image) " +
+                    "VALUES (?,?,?,?, 0, '')";
+            db.execSQL(insertQ, new String[]{sheetId, txt1, txt2, String.valueOf(tmstmp)});
+            db.setTransactionSuccessful();
+        }
+        finally {
+            db.endTransaction();
+        }
+        db.close();
     }
 
 }

@@ -33,7 +33,7 @@ public class AddLearnItemView extends AppCompatActivity {
                 String txt1 = txtV1.getText().toString();
                 TextView txtV2 = (TextView)findViewById(R.id.addLItem_EditText2);
                 String txt2 = txtV2.getText().toString();
-                appData.insertLearnItem(sheetId, txt1, txt2, System.currentTimeMillis());
+                appData.insertLearnItem(sheetId, txt1, txt2);
                 AddLearnItemView.this.finish();
             }
         });
