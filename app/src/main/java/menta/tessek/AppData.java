@@ -54,4 +54,8 @@ public class AppData implements Serializable {
         sqlConnectionManager.insertLearnItem(sheetId, txt1, txt2);
     }
 
+    public void deleteLearnItem(String sheetId, String txt1, String txt2){
+        sqlConnectionManager.deleteLearnItem(sheetId, txt1, txt2);
+    }
+
 }

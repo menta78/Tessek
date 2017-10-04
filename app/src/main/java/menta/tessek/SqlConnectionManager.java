@@ -57,4 +57,20 @@ public class SqlConnectionManager implements Serializable {
         db.close();
     }
 
+    public void deleteLearnItem(String sheetId, String txt1, String txt2){
+        int tmstmp = round(System.currentTimeMillis() / 1000);
+        SQLiteDatabase db = getDb();
+        db.beginTransaction();
+        try {
+            String deleteQ = "DELETE FROM sheet_data WHERE " +
+                    "sheet_id=? AND sentence1=? AND sentence2=?";
+            db.execSQL(deleteQ, new String[]{sheetId, txt1, txt2});
+            db.setTransactionSuccessful();
+        }
+        finally {
+            db.endTransaction();
+        }
+        db.close();
+    }
+
 }
