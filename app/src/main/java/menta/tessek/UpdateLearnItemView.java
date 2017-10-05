@@ -5,6 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class UpdateLearnItemView extends AppCompatActivity {
 
@@ -26,5 +34,47 @@ public class UpdateLearnItemView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_learn_item_view);
+
+        Button buttonOk = (Button)findViewById(R.id.buttonOk);
+        buttonOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String oldSheet = UpdateLearnItemView.this.sheetId;
+                String oldTxt1 = UpdateLearnItemView.this.txt1;
+                String oldTxt2 = UpdateLearnItemView.this.txt2;
+                Spinner ss = (Spinner)findViewById(R.id.spinnerSheet);
+                String newSheet = ((String)ss.getSelectedItem());
+                TextView txtV1 = (TextView)findViewById(R.id.editTextUpdateText1);
+                String newTxt1 = txtV1.getText().toString();
+                TextView txtV2 = (TextView)findViewById(R.id.editTextUpdateText2);
+                String newTxt2 = txtV2.getText().toString();
+                appData.updateLearnItem(oldSheet, oldTxt1, oldTxt2, newSheet, newTxt1, newTxt2);
+                UpdateLearnItemView.this.finish();
+            }
+        });
+
+        setTitle("Update ... ");
+        populate();
     }
+
+    private void populate(){
+        Intent intent = this.getIntent();
+        appData = (AppData)intent.getSerializableExtra(AppData.APP_DATA);
+        sheetId = intent.getStringExtra(AppData.SHEET_ID);
+        txt1 = intent.getStringExtra(AppData.TXT1);
+        txt2 = intent.getStringExtra(AppData.TXT2);
+
+        ArrayList<String> sheets = appData.getSheetsList();
+        ArrayAdapter<String> sheetsAdapter=new ArrayAdapter<>(getApplicationContext(),R.layout.spinner_sheets_view,sheets);
+        Spinner sp = (Spinner)findViewById(R.id.spinnerSheet);
+        sp.setAdapter(sheetsAdapter);
+        int selIndex = sheets.indexOf(sheetId);
+        sp.setSelection(selIndex);
+
+        EditText eTxt1 = (EditText)findViewById(R.id.editTextUpdateText1);
+        eTxt1.setText(txt1);
+        EditText eTxt2 = (EditText)findViewById(R.id.editTextUpdateText2);
+        eTxt2.setText(txt2);
+    }
+
 }

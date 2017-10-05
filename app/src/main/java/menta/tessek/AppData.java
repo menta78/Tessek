@@ -61,4 +61,10 @@ public class AppData implements Serializable {
         sqlConnectionManager.deleteLearnItem(sheetId, txt1, txt2);
     }
 
+    public void updateLearnItem(String oldSheetId, String oldTxt1, String oldTxt2,
+                                String newSheetId, String newTxt1, String newTxt2){
+        sqlConnectionManager.updateLearnItem(oldSheetId, oldTxt1, oldTxt2,
+                newSheetId, newTxt1, newTxt2);
+    }
+
 }

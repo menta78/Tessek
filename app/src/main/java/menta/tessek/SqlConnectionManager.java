@@ -73,4 +73,23 @@ public class SqlConnectionManager implements Serializable {
         db.close();
     }
 
+    public void updateLearnItem(String oldSheetId, String oldTxt1, String oldTxt2,
+                                String newSheetId, String newTxt1, String newTxt2){
+        int tmstmp = round(System.currentTimeMillis() / 1000);
+        SQLiteDatabase db = getDb();
+        db.beginTransaction();
+        try {
+            String updateQ = "UPDATE sheet_data SET " +
+                    "sheet_id=?, sentence1=?, sentence2=?, mod_date=? WHERE " +
+                    "sheet_id=? AND sentence1=? AND sentence2=?";
+            db.execSQL(updateQ, new String[]{newSheetId, newTxt1, newTxt2,
+                    String.valueOf(tmstmp), oldSheetId, oldTxt1, oldTxt2});
+            db.setTransactionSuccessful();
+        }
+        finally {
+            db.endTransaction();
+        }
+        db.close();
+    }
+
 }

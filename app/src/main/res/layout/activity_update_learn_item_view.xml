@@ -6,4 +6,110 @@
     android:layout_height="match_parent"
     tools:context="menta.tessek.UpdateLearnItemView">
 
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sheet"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="23dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.025" />
+
+    <Spinner
+        android:id="@+id/spinnerSheet"
+        android:layout_width="354dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Text 1"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="78dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.024"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <EditText
+        android:id="@+id/editTextUpdateText1"
+        android:layout_width="354dp"
+        android:layout_height="70dp"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:text=""
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="98dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Text 2"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="178dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.024"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <EditText
+        android:id="@+id/editTextUpdateText2"
+        android:layout_width="354dp"
+        android:layout_height="70dp"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:text=""
+        android:minLines="6"
+        app:layout_constraintTop_toTopOf="@+id/textView2"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <Button
+        android:id="@+id/buttonOk"
+        android:layout_width="185dp"
+        android:layout_height="48dp"
+        android:text="Ok"
+        android:layout_marginRight="9dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        android:layout_marginTop="433dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintVertical_bias="1.0"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="9dp" />
+
 </android.support.constraint.ConstraintLayout>
