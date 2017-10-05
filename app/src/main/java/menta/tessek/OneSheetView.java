@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -65,6 +64,11 @@ public class OneSheetView extends AppCompatActivity {
                 mi.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
+                        final String sheetId = OneSheetView.this.sheetId;
+                        final String txt1 = OneSheetView.this.selectedTxt1;
+                        final String txt2 = OneSheetView.this.selectedTxt2;
+                        UpdateLearnItemView.start(OneSheetView.this,
+                                sheetId, txt1, txt2, OneSheetView.this.appData);
                         return false;
                     }
                 });

@@ -12,9 +12,12 @@ import java.util.ArrayList;
 
 public class AppData implements Serializable {
 
-    public static final String SHEET_ID = "sheet_id";
     public static final String APP_DATA = "app_data";
+    public static final String SHEET_ID = "sheet_id";
+    public static final String TXT1 = "txt1";
+    public static final String TXT2 = "txt2";
     public static final int REQUEST_CODE_ADD_LEARN_ITEM = 1000;
+    public static final int REQUEST_CODE_UPDATE_LEARN_ITEM = 1001;
 
     SqlConnectionManager sqlConnectionManager;
 

@@ -27,7 +27,8 @@
             android:name=".OneSheetView"
             android:label="@string/title_activity_sheet"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AddLearnItemView"></activity>
+        <activity android:name=".AddLearnItemView" />
+        <activity android:name=".UpdateLearnItemView"></activity>
     </application>
 
 </manifest>
