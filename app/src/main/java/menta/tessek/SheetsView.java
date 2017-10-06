@@ -1,10 +1,18 @@
 package menta.tessek;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.provider.DocumentFile;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -12,10 +20,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 
 import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 
 public class SheetsView extends AppCompatActivity {
@@ -31,17 +41,7 @@ public class SheetsView extends AppCompatActivity {
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        File dbFile = new File(getExternalFilesDir(null), "tessek.db");
-        String dbFilePath = dbFile.getAbsolutePath();
-
-        appData = new AppData();
-        appData.setup(dbFilePath);
-
-        ArrayList<String> sheets = appData.getSheetsList();
-        ArrayAdapter<String> dataAdapter=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_spinner_item,sheets);
         GridView gvSheets = (GridView)findViewById(R.id.gridViewSheets);
-        gvSheets.setAdapter(dataAdapter);
-
         gvSheets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
@@ -64,6 +64,27 @@ public class SheetsView extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+
+        File dbFile = new File(getExternalFilesDir(null), "tessek.db");
+        String dbFilePath = dbFile.getAbsolutePath();
+
+        SharedPreferences settings = getPreferences(MODE_PRIVATE);
+        dbFilePath = settings.getString(AppData.SETTING_DBPATH, dbFilePath);
+        doRefreshContent(dbFilePath);
+    }
+
+    private void doRefreshContent(String dbFilePath){
+        appData = new AppData();
+        appData.setup(dbFilePath);
+        File dbFile = new File(dbFilePath);
+        if (!dbFile.exists()){
+            appData.generateNewDb();
+        }
+
+        ArrayList<String> sheets = appData.getSheetsList();
+        ArrayAdapter<String> dataAdapter=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_spinner_item,sheets);
+        GridView gvSheets = (GridView)findViewById(R.id.gridViewSheets);
+        gvSheets.setAdapter(dataAdapter);
     }
 
     @Override
@@ -82,9 +103,34 @@ public class SheetsView extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            //SharedPreferences settings = getPreferences(MODE_PRIVATE);
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("*/*");
+            intent.putExtra("android.content.extra.SHOW_ADVANCED", true);
+            startActivityForResult(intent, AppData.REQUEST_CODE_SET_DBPATH);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (requestCode == AppData.REQUEST_CODE_SET_DBPATH
+                && resultCode == Activity.RESULT_OK
+                && data != null){
+            Uri uri = data.getData();
+            String[] pth = uri.getPath().split(":");
+            String dbPth = Environment.getExternalStorageDirectory() + "/" + pth[1];
+
+            SharedPreferences settings = getPreferences(MODE_PRIVATE);
+            SharedPreferences.Editor e = settings.edit();
+            e.putString(AppData.SETTING_DBPATH, dbPth);
+            e.commit();
+            doRefreshContent(dbPth);
+        }
+    }
+
+
 }

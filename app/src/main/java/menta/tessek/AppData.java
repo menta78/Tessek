@@ -14,10 +14,12 @@ public class AppData implements Serializable {
 
     public static final String APP_DATA = "app_data";
     public static final String SHEET_ID = "sheet_id";
+    public static final String SETTING_DBPATH = "dbpath";
     public static final String TXT1 = "txt1";
     public static final String TXT2 = "txt2";
-    public static final int REQUEST_CODE_ADD_LEARN_ITEM = 1000;
-    public static final int REQUEST_CODE_UPDATE_LEARN_ITEM = 1001;
+    public static final int REQUEST_CODE_SET_DBPATH = 1000;
+    public static final int REQUEST_CODE_ADD_LEARN_ITEM = 1001;
+    public static final int REQUEST_CODE_UPDATE_LEARN_ITEM = 1002;
 
     SqlConnectionManager sqlConnectionManager;
 
@@ -35,6 +37,10 @@ public class AppData implements Serializable {
         }
         crs.close();
         return l;
+    }
+
+    public void generateNewDb(){
+
     }
 
     public ArrayList<String> getOneSheetList(String sheetId){
