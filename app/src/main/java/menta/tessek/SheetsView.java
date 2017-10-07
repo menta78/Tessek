@@ -86,7 +86,6 @@ public class SheetsView extends AppCompatActivity {
         if (!dbFile.exists()){
             appData.generateNewDb();
         }
-        appData.generateNewDb();
 
         ArrayList<String> sheets = appData.getSheetsList();
         ArrayAdapter<String> dataAdapter=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_spinner_item,sheets);
@@ -118,6 +117,13 @@ public class SheetsView extends AppCompatActivity {
             startActivityForResult(intent, AppData.REQUEST_CODE_SET_DBPATH);
             return true;
         }
+        else if (id == R.id.action_info) {
+            AlertDialog alertDialog = new AlertDialog.Builder(SheetsView.this).create();
+            alertDialog.setTitle("");
+            alertDialog.setMessage("menta.tessek v 0.01");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok", (DialogInterface.OnClickListener)null);
+            alertDialog.show();
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -130,7 +136,11 @@ public class SheetsView extends AppCompatActivity {
             String oldPth = appData.sqlConnectionManager.dbFilePath;
             Uri uri = data.getData();
             String[] pth = uri.getPath().split(":");
+
             String dbPth = Environment.getExternalStorageDirectory() + "/" + pth[1];
+            if (!(new File(dbPth)).exists()){
+                dbPth = System.getenv("SECONDARY_STORAGE") + "/" + pth[1];
+            }
 
             try {
                 doRefreshContent(dbPth);
@@ -140,6 +150,12 @@ public class SheetsView extends AppCompatActivity {
                 e.commit();
             } catch (Exception exc) {
                 //resetting previous situation
+                AlertDialog alertDialog = new AlertDialog.Builder(SheetsView.this).create();
+                alertDialog.setTitle("error setting new db");
+                alertDialog.setMessage("file " + dbPth + " cannot be accessed.");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok", (DialogInterface.OnClickListener)null);
+                alertDialog.show();
+
                 dbPth = oldPth;
                 doRefreshContent(dbPth);
                 SharedPreferences settings = getPreferences(MODE_PRIVATE);
