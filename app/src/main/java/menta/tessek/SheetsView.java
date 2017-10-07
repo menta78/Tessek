@@ -88,7 +88,7 @@ public class SheetsView extends AppCompatActivity {
         }
 
         ArrayList<String> sheets = appData.getSheetsList();
-        ArrayAdapter<String> dataAdapter=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_spinner_item,sheets);
+        ArrayAdapter<String> dataAdapter=new ArrayAdapter<>(getApplicationContext(),R.layout.ts_text_view,sheets);
         GridView gvSheets = (GridView)findViewById(R.id.gridViewSheets);
         gvSheets.setAdapter(dataAdapter);
     }
