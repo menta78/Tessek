@@ -24,6 +24,32 @@ public class SqlConnectionManager implements Serializable {
         return SQLiteDatabase.openDatabase(dbFilePath, null, SQLiteDatabase.CREATE_IF_NECESSARY);
     }
 
+    public void generateNewDb(){
+        SQLiteDatabase db = getDb();
+        try {
+            db.beginTransaction();
+            try {
+                String createSql = "CREATE TABLE sheet_data " +
+                        "(sheet_id text, mod_date date, sentence1 text, sentence2 text, " +
+                        "learnt boolean, image text)";
+                db.execSQL(createSql);
+            } catch (Exception e) {
+            }
+
+            try {
+                String createSql = "CREATE TABLE sheet_headers (sheet_id text, creation_date date)";
+                db.execSQL(createSql);
+            } catch (Exception e) {
+            }
+
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
+
+    }
+
     public Cursor getSheetsQuery(){
         SQLiteDatabase db = getDb();
         Cursor cr=db.rawQuery("SELECT * FROM sheet_headers",null);
@@ -53,8 +79,8 @@ public class SqlConnectionManager implements Serializable {
         }
         finally {
             db.endTransaction();
+            db.close();
         }
-        db.close();
     }
 
     public void deleteLearnItem(String sheetId, String txt1, String txt2){
@@ -69,8 +95,8 @@ public class SqlConnectionManager implements Serializable {
         }
         finally {
             db.endTransaction();
+            db.close();
         }
-        db.close();
     }
 
     public void updateLearnItem(String oldSheetId, String oldTxt1, String oldTxt2,
@@ -88,8 +114,8 @@ public class SqlConnectionManager implements Serializable {
         }
         finally {
             db.endTransaction();
+            db.close();
         }
-        db.close();
     }
 
 }

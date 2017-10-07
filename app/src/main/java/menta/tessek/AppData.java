@@ -40,7 +40,7 @@ public class AppData implements Serializable {
     }
 
     public void generateNewDb(){
-
+        sqlConnectionManager.generateNewDb();
     }
 
     public ArrayList<String> getOneSheetList(String sheetId){

@@ -65,12 +65,18 @@ public class SheetsView extends AppCompatActivity {
             }
         });
 
-        File dbFile = new File(getExternalFilesDir(null), "tessek.db");
-        String dbFilePath = dbFile.getAbsolutePath();
 
-        SharedPreferences settings = getPreferences(MODE_PRIVATE);
-        dbFilePath = settings.getString(AppData.SETTING_DBPATH, dbFilePath);
-        doRefreshContent(dbFilePath);
+        File dbFile = new File(getExternalFilesDir(null), "tessek.db");
+        String dbDefaultFilePath = dbFile.getAbsolutePath();
+
+        try {
+            SharedPreferences settings = getPreferences(MODE_PRIVATE);
+            String dbFilePath = settings.getString(AppData.SETTING_DBPATH, dbDefaultFilePath);
+            doRefreshContent(dbFilePath);
+        } catch (Exception e) {
+            String dbFilePath = dbDefaultFilePath;
+            doRefreshContent(dbFilePath);
+        }
     }
 
     private void doRefreshContent(String dbFilePath){
@@ -80,6 +86,7 @@ public class SheetsView extends AppCompatActivity {
         if (!dbFile.exists()){
             appData.generateNewDb();
         }
+        appData.generateNewDb();
 
         ArrayList<String> sheets = appData.getSheetsList();
         ArrayAdapter<String> dataAdapter=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_spinner_item,sheets);
@@ -120,15 +127,26 @@ public class SheetsView extends AppCompatActivity {
         if (requestCode == AppData.REQUEST_CODE_SET_DBPATH
                 && resultCode == Activity.RESULT_OK
                 && data != null){
+            String oldPth = appData.sqlConnectionManager.dbFilePath;
             Uri uri = data.getData();
             String[] pth = uri.getPath().split(":");
             String dbPth = Environment.getExternalStorageDirectory() + "/" + pth[1];
 
-            SharedPreferences settings = getPreferences(MODE_PRIVATE);
-            SharedPreferences.Editor e = settings.edit();
-            e.putString(AppData.SETTING_DBPATH, dbPth);
-            e.commit();
-            doRefreshContent(dbPth);
+            try {
+                doRefreshContent(dbPth);
+                SharedPreferences settings = getPreferences(MODE_PRIVATE);
+                SharedPreferences.Editor e = settings.edit();
+                e.putString(AppData.SETTING_DBPATH, dbPth);
+                e.commit();
+            } catch (Exception exc) {
+                //resetting previous situation
+                dbPth = oldPth;
+                doRefreshContent(dbPth);
+                SharedPreferences settings = getPreferences(MODE_PRIVATE);
+                SharedPreferences.Editor e = settings.edit();
+                e.putString(AppData.SETTING_DBPATH, dbPth);
+                e.commit();
+            }
         }
     }
 
