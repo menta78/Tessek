@@ -49,6 +49,7 @@ public class UpdateLearnItemView extends AppCompatActivity {
                 TextView txtV2 = (TextView)findViewById(R.id.editTextUpdateText2);
                 String newTxt2 = txtV2.getText().toString();
                 appData.updateLearnItem(oldSheet, oldTxt1, oldTxt2, newSheet, newTxt1, newTxt2);
+                setResult(Activity.RESULT_OK, null);
                 UpdateLearnItemView.this.finish();
             }
         });

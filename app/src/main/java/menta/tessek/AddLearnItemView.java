@@ -34,6 +34,7 @@ public class AddLearnItemView extends AppCompatActivity {
                 TextView txtV2 = (TextView)findViewById(R.id.addLItem_EditText2);
                 String txt2 = txtV2.getText().toString();
                 appData.insertLearnItem(sheetId, txt1, txt2);
+                setResult(Activity.RESULT_OK, null);
                 AddLearnItemView.this.finish();
             }
         });

@@ -41,7 +41,7 @@ public class FilterSheetView extends AppCompatActivity {
                 String filterPattern = editTextFilter.getText().toString();
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra(AppData.FILTER_PATTERN, filterPattern);
-                setResult(Activity.RESULT_OK,returnIntent);
+                setResult(Activity.RESULT_OK, returnIntent);
                 finish();
             }
         });

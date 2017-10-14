@@ -63,6 +63,7 @@ public class SqlConnectionManager implements Serializable {
             String queryTxt = "SELECT * FROM sheet_data WHERE sheet_id = ? ORDER BY rowid DESC";
             cr = db.rawQuery(queryTxt, new String [] {sheetId});
         } else {
+            filterPattern = "%" + filterPattern + "%";
             String queryTxt = "SELECT * FROM sheet_data WHERE sheet_id = ? "
                     + " AND ((sentence1 LIKE ?) OR (sentence2 LIKE ?))"
                     + " ORDER BY rowid DESC";

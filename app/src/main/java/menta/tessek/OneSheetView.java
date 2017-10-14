@@ -27,6 +27,8 @@ public class OneSheetView extends AppCompatActivity {
     String selectedTxt2 = "";
     String filterPattern = "";
 
+    Menu menu;
+
     public static void start(Context context, String sheetId, AppData appData) {
         Intent intent = new Intent(context, OneSheetView.class);
         intent.putExtra(AppData.SHEET_ID, sheetId);
@@ -114,8 +116,10 @@ public class OneSheetView extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_one_sheet_view, menu);
+        MenuItem menuItemRemoveFilter = menu.findItem(R.id.action_one_sheet_remove_filter);
+        menuItemRemoveFilter.setVisible(!filterPattern.isEmpty());
+        this.menu = menu;
         return true;
     }
 
@@ -133,18 +137,27 @@ public class OneSheetView extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (requestCode == AppData.REQUEST_CODE_FILTER_SHEET) {
-            filterPattern = data.getStringExtra(AppData.FILTER_PATTERN);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == AppData.REQUEST_CODE_FILTER_SHEET) {
+                filterPattern = data.getStringExtra(AppData.FILTER_PATTERN);
+            }
+            refreshView();
         }
-        refreshView();
     }
 
     private void refreshView(){
+
         if (filterPattern.isEmpty()) {
             setTitle(sheetId);
         } else {
             setTitle(sheetId + " (filter " + filterPattern + ")");
         }
+
+        if (menu != null) {
+            MenuItem menuItemRemoveFilter = menu.findItem(R.id.action_one_sheet_remove_filter);
+            menuItemRemoveFilter.setVisible(!filterPattern.isEmpty());
+        }
+
         sheetList = appData.getOneSheetList(sheetId, filterPattern);
         ArrayAdapter<String> dataAdapter=new ArrayAdapter<>
                 (getApplicationContext(),R.layout.ts_text_view,sheetList);
@@ -158,6 +171,10 @@ public class OneSheetView extends AppCompatActivity {
 
         if (id == R.id.action_one_sheet_filter) {
             FilterSheetView.start(OneSheetView.this, sheetId, filterPattern);
+        }
+        if (id == R.id.action_one_sheet_remove_filter) {
+            filterPattern = "";
+            refreshView();
         }
 
         return super.onOptionsItemSelected(item);
