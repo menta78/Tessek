@@ -56,10 +56,18 @@ public class SqlConnectionManager implements Serializable {
         return cr;
     }
 
-    public Cursor getOneSheetQuery(String sheetId){
+    public Cursor getOneSheetQuery(String sheetId, String filterPattern){
         SQLiteDatabase db = getDb();
-        String queryTxt = "SELECT * FROM sheet_data WHERE sheet_id = ? ORDER BY rowid DESC";
-        Cursor cr = db.rawQuery(queryTxt, new String [] {sheetId});
+        Cursor cr;
+        if (filterPattern == "") {
+            String queryTxt = "SELECT * FROM sheet_data WHERE sheet_id = ? ORDER BY rowid DESC";
+            cr = db.rawQuery(queryTxt, new String [] {sheetId});
+        } else {
+            String queryTxt = "SELECT * FROM sheet_data WHERE sheet_id = ? "
+                    + " AND ((sentence1 LIKE ?) OR (sentence2 LIKE ?))"
+                    + " ORDER BY rowid DESC";
+            cr = db.rawQuery(queryTxt, new String [] {sheetId, filterPattern, filterPattern});
+        }
         return cr;
     }
 

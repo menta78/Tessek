@@ -22,14 +22,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
         <activity
             android:name=".OneSheetView"
             android:label="@string/title_activity_sheet"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AddLearnItemView" />
-        <activity android:name=".UpdateLearnItemView"></activity>
+        <activity android:name=".UpdateLearnItemView" />
+        <activity android:name=".FilterSheetView"></activity>
     </application>
 
 </manifest>

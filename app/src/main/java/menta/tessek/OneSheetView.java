@@ -25,6 +25,7 @@ public class OneSheetView extends AppCompatActivity {
     ArrayList<String> sheetList;
     String selectedTxt1 = "";
     String selectedTxt2 = "";
+    String filterPattern = "";
 
     public static void start(Context context, String sheetId, AppData appData) {
         Intent intent = new Intent(context, OneSheetView.class);
@@ -88,7 +89,7 @@ public class OneSheetView extends AppCompatActivity {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         OneSheetView.this.appData.deleteLearnItem(sheetId, txt1, txt2);
-                                        OneSheetView.this.refreshViewNoFilter();
+                                        OneSheetView.this.refreshView();
                                     }
                                 });
                         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
@@ -109,7 +110,7 @@ public class OneSheetView extends AppCompatActivity {
         appData = (AppData)intent.getSerializableExtra(AppData.APP_DATA);
 
         setTitle(sheetId);
-        refreshViewNoFilter();
+        refreshView();
     }
 
     @Override
@@ -133,15 +134,29 @@ public class OneSheetView extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        refreshViewNoFilter();
+        if (requestCode == AppData.REQUEST_CODE_FILTER_SHEET) {
+            filterPattern = data.getStringExtra(AppData.FILTER_PATTERN);
+        }
+        refreshView();
     }
 
-    private void refreshViewNoFilter(){
-        sheetList = appData.getOneSheetList(sheetId);
+    private void refreshView(){
+        sheetList = appData.getOneSheetList(sheetId, filterPattern);
         ArrayAdapter<String> dataAdapter=new ArrayAdapter<>
                 (getApplicationContext(),R.layout.ts_text_view,sheetList);
         GridView gvOneSheet = (GridView)findViewById(R.id.gridViewOneSheet);
         gvOneSheet.setAdapter(dataAdapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_one_sheet_filter) {
+            FilterSheetView.start(OneSheetView.this, sheetId, appData);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

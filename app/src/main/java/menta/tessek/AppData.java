@@ -17,9 +17,11 @@ public class AppData implements Serializable {
     public static final String SETTING_DBPATH = "dbpath";
     public static final String TXT1 = "txt1";
     public static final String TXT2 = "txt2";
+    public static final String FILTER_PATTERN = "filterPattern";
     public static final int REQUEST_CODE_SET_DBPATH = 1000;
     public static final int REQUEST_CODE_ADD_LEARN_ITEM = 1001;
     public static final int REQUEST_CODE_UPDATE_LEARN_ITEM = 1002;
+    public static final int REQUEST_CODE_FILTER_SHEET = 1003;
 
     SqlConnectionManager sqlConnectionManager;
 
@@ -43,10 +45,10 @@ public class AppData implements Serializable {
         sqlConnectionManager.generateNewDb();
     }
 
-    public ArrayList<String> getOneSheetList(String sheetId){
+    public ArrayList<String> getOneSheetList(String sheetId, String filterPattern){
         ArrayList<String> l = new ArrayList();
 
-        Cursor crs = sqlConnectionManager.getOneSheetQuery(sheetId);
+        Cursor crs = sqlConnectionManager.getOneSheetQuery(sheetId, filterPattern);
 
         if (crs.moveToFirst()) {
             do {
