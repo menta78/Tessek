@@ -59,7 +59,7 @@ public class SqlConnectionManager implements Serializable {
     public Cursor getOneSheetQuery(String sheetId, String filterPattern){
         SQLiteDatabase db = getDb();
         Cursor cr;
-        if (filterPattern == "") {
+        if (filterPattern.isEmpty()) {
             String queryTxt = "SELECT * FROM sheet_data WHERE sheet_id = ? ORDER BY rowid DESC";
             cr = db.rawQuery(queryTxt, new String [] {sheetId});
         } else {

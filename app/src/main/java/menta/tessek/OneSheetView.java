@@ -109,7 +109,6 @@ public class OneSheetView extends AppCompatActivity {
         sheetId = intent.getStringExtra(AppData.SHEET_ID);
         appData = (AppData)intent.getSerializableExtra(AppData.APP_DATA);
 
-        setTitle(sheetId);
         refreshView();
     }
 
@@ -141,6 +140,11 @@ public class OneSheetView extends AppCompatActivity {
     }
 
     private void refreshView(){
+        if (filterPattern.isEmpty()) {
+            setTitle(sheetId);
+        } else {
+            setTitle(sheetId + " (filter " + filterPattern + ")");
+        }
         sheetList = appData.getOneSheetList(sheetId, filterPattern);
         ArrayAdapter<String> dataAdapter=new ArrayAdapter<>
                 (getApplicationContext(),R.layout.ts_text_view,sheetList);
@@ -153,7 +157,7 @@ public class OneSheetView extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_one_sheet_filter) {
-            FilterSheetView.start(OneSheetView.this, sheetId, appData);
+            FilterSheetView.start(OneSheetView.this, sheetId, filterPattern);
         }
 
         return super.onOptionsItemSelected(item);
