@@ -72,6 +72,21 @@ public class SqlConnectionManager implements Serializable {
         return cr;
     }
 
+    public void insertSheet(String newSheetId){
+        int tmstmp = round(System.currentTimeMillis() / 1000);
+        String insertQ = "INSERT INTO sheet_headers (sheet_id, creation_date) VALUES (?, ?)";
+        SQLiteDatabase db = getDb();
+        db.beginTransaction();
+        try {
+            db.execSQL(insertQ, new String[]{newSheetId, String.valueOf(tmstmp)});
+            db.setTransactionSuccessful();
+        }
+        finally {
+            db.endTransaction();
+            db.close();
+        }
+    }
+
     public void insertLearnItem(String sheetId, String txt1, String txt2){
         int tmstmp = round(System.currentTimeMillis() / 1000);
         SQLiteDatabase db = getDb();

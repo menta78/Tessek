@@ -6,13 +6,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.provider.DocumentFile;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -22,10 +19,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.File;
-import java.net.URI;
 import java.util.ArrayList;
 
 public class SheetsView extends AppCompatActivity {
@@ -40,6 +37,36 @@ public class SheetsView extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog alertDialog = new AlertDialog.Builder(SheetsView.this).create();
+                alertDialog.setTitle("New sheet");
+                alertDialog.setMessage("Inert the name of the new sheet");
+                final EditText input = new EditText(SheetsView.this);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                input.setLayoutParams(lp);
+                alertDialog.setView(input);
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                String newSheetId = input.getText().toString();
+                                appData.insertSheet(newSheetId);
+                                refreshView();
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+            }
+        });
 
         GridView gvSheets = (GridView)findViewById(R.id.gridViewSheets);
         gvSheets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -86,7 +113,10 @@ public class SheetsView extends AppCompatActivity {
         if (!dbFile.exists()){
             appData.generateNewDb();
         }
+        refreshView();
+    }
 
+    private void refreshView(){
         ArrayList<String> sheets = appData.getSheetsList();
         ArrayAdapter<String> dataAdapter=new ArrayAdapter<>(getApplicationContext(),R.layout.ts_text_view,sheets);
         GridView gvSheets = (GridView)findViewById(R.id.gridViewSheets);

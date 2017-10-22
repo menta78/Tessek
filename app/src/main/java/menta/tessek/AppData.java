@@ -61,6 +61,10 @@ public class AppData implements Serializable {
         return l;
     }
 
+    public void insertSheet(String newSheetId){
+        sqlConnectionManager.insertSheet(newSheetId);
+    }
+
     public void insertLearnItem(String sheetId, String txt1, String txt2){
         sqlConnectionManager.insertLearnItem(sheetId, txt1, txt2);
     }
