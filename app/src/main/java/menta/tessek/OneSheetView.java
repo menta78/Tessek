@@ -71,8 +71,9 @@ public class OneSheetView extends AppCompatActivity {
                         final String sheetId = OneSheetView.this.sheetId;
                         final String txt1 = OneSheetView.this.selectedTxt1;
                         final String txt2 = OneSheetView.this.selectedTxt2;
+                        final String formula = appData.getFormula(sheetId, txt1, txt2);
                         UpdateLearnItemView.start(OneSheetView.this,
-                                sheetId, txt1, txt2, OneSheetView.this.appData);
+                                sheetId, txt1, txt2, formula, OneSheetView.this.appData);
                         return false;
                     }
                 });

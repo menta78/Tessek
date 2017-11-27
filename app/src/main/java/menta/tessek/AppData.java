@@ -17,6 +17,7 @@ public class AppData implements Serializable {
     public static final String SETTING_DBPATH = "dbpath";
     public static final String TXT1 = "txt1";
     public static final String TXT2 = "txt2";
+    public static final String FORMULA = "formula";
     public static final String FILTER_PATTERN = "filterPattern";
     public static final int REQUEST_CODE_SET_DBPATH = 1000;
     public static final int REQUEST_CODE_ADD_LEARN_ITEM = 1001;
@@ -52,8 +53,8 @@ public class AppData implements Serializable {
 
         if (crs.moveToFirst()) {
             do {
+                l.add(crs.getString(1));
                 l.add(crs.getString(2));
-                l.add(crs.getString(3));
             } while (crs.moveToNext());
             crs.close();
         }
@@ -65,8 +66,8 @@ public class AppData implements Serializable {
         sqlConnectionManager.insertSheet(newSheetId);
     }
 
-    public void insertLearnItem(String sheetId, String txt1, String txt2){
-        sqlConnectionManager.insertLearnItem(sheetId, txt1, txt2);
+    public void insertLearnItem(String sheetId, String txt1, String txt2, String formula){
+        sqlConnectionManager.insertLearnItem(sheetId, txt1, txt2, formula);
     }
 
     public void deleteLearnItem(String sheetId, String txt1, String txt2){
@@ -74,9 +75,13 @@ public class AppData implements Serializable {
     }
 
     public void updateLearnItem(String oldSheetId, String oldTxt1, String oldTxt2,
-                                String newSheetId, String newTxt1, String newTxt2){
+                                String newSheetId, String newTxt1, String newTxt2, String newFormula){
         sqlConnectionManager.updateLearnItem(oldSheetId, oldTxt1, oldTxt2,
-                newSheetId, newTxt1, newTxt2);
+                newSheetId, newTxt1, newTxt2, newFormula);
+    }
+
+    public String getFormula(String sheetId, String txt1, String txt2){
+        return sqlConnectionManager.getFormula(sheetId, txt1, txt2);
     }
 
 }
