@@ -108,6 +108,21 @@ public class OneSheetView extends AppCompatActivity {
             }
         });
 
+        gvOneSheet.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                int[] selRow = getRowIndices(position);
+                String txt1 = OneSheetView.this.sheetList.get(selRow[0]);
+                String txt2 = OneSheetView.this.sheetList.get(selRow[1]);
+                String sheetId = OneSheetView.this.sheetId;
+                AppData appData = OneSheetView.this.appData;
+                String frml = appData.getFormula(sheetId, txt1, txt2);
+                if (frml != "") {
+                    ViewFormulaActivity.start(OneSheetView.this, sheetId, txt1, txt2, frml, appData);
+                }
+            }
+        });
+
         Intent intent = this.getIntent();
         sheetId = intent.getStringExtra(AppData.SHEET_ID);
         appData = (AppData)intent.getSerializableExtra(AppData.APP_DATA);

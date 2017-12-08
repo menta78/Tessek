@@ -28,7 +28,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AddLearnItemView" />
         <activity android:name=".UpdateLearnItemView" />
-        <activity android:name=".FilterSheetView"></activity>
+        <activity android:name=".FilterSheetView" />
+        <activity android:name=".ViewFormulaActivity"></activity>
     </application>
 
 </manifest>
