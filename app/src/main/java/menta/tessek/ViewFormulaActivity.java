@@ -5,6 +5,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+import maximsblog.blogspot.com.jlatexmath.core.Insets;
+import maximsblog.blogspot.com.jlatexmath.core.TeXConstants;
+import maximsblog.blogspot.com.jlatexmath.core.TeXFormula;
+import maximsblog.blogspot.com.jlatexmath.core.TeXIcon;
+import maximsblog.blogspot.com.jlatexmath.core.AjLatexMath;
 
 public class ViewFormulaActivity extends AppCompatActivity {
 

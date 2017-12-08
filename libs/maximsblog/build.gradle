@@ -1,0 +1,24 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
+
+    defaultConfig {
+        minSdkVersion 22
+        targetSdkVersion 26
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['blogspot/com/jlatexmath/']
+        }
+    }
+
+}
+
+//dependencies {
+//    compile 'com.android.support:support-v4:19.1.0'
+//}
+
