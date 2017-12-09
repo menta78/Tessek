@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Tessek.iml" filepath="$PROJECT_DIR$/Tessek.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libs/jlatexmath/jlatexmath.iml" filepath="$PROJECT_DIR$/libs/jlatexmath/jlatexmath.iml" />
       <module fileurl="file://$PROJECT_DIR$/libs/maximsblog/jlatexmath.iml" filepath="$PROJECT_DIR$/libs/maximsblog/jlatexmath.iml" />
     </modules>
   </component>

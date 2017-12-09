@@ -1,4 +1,4 @@
 include ':app'
 include ':jlatexmath'
 
-project(':jlatexmath').projectDir = new File('libs/maximsblog')
+project(':jlatexmath').projectDir = new File('libs/jlatexmath')
