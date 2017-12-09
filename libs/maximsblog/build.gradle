@@ -13,6 +13,8 @@ android {
         main {
             manifest.srcFile 'AndroidManifest.xml'
             java.srcDirs = ['blogspot/com/jlatexmath/']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
         }
     }
 
