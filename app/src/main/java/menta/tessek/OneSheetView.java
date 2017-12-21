@@ -117,7 +117,7 @@ public class OneSheetView extends AppCompatActivity {
                 String sheetId = OneSheetView.this.sheetId;
                 AppData appData = OneSheetView.this.appData;
                 String frml = appData.getFormula(sheetId, txt1, txt2);
-                if (frml != "" & frml != null) {
+                if (frml != null && !frml.isEmpty()) {
                     ViewFormulaActivity.start(OneSheetView.this, sheetId, txt1, txt2, frml, appData);
                 }
             }
