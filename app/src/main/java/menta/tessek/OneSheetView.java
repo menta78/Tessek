@@ -4,17 +4,21 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -175,8 +179,42 @@ public class OneSheetView extends AppCompatActivity {
         }
 
         sheetList = appData.getOneSheetList(sheetId, filterPattern);
-        ArrayAdapter<String> dataAdapter=new ArrayAdapter<>
-                (getApplicationContext(),R.layout.ts_text_view,sheetList);
+        ArrayAdapter<String> dataAdapter=new ArrayAdapter<String>
+                (getApplicationContext(),R.layout.ts_text_view,sheetList)
+        {
+            // this ugly stuff below is to get the same width for 2 neighbouring cells,
+            // otherwise the gridview messes completely the things up
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent){
+
+                int height2 = 0;
+                if ( (position % 2) == 0 ){
+                    // the other text is likely longer
+                    TextView tv_cellNeigh = (TextView)getView(position + 1, convertView, parent);
+                    height2 = tv_cellNeigh.getLayoutParams().height;
+                }
+
+                TextView tv_cell = (TextView) super.getView(position, convertView, parent);
+
+                Display display = getWindowManager().getDefaultDisplay();
+                Point size = new Point();
+                display.getSize(size);
+                int width = ((int)Math.round(size.x/2.2));
+                float fontSize = tv_cell.getTextSize();
+                String txt = (String)tv_cell.getText();
+                double txtWidth = fontSize*txt.length()*.8;
+                int nlines = ((int)Math.floor(txtWidth/width)) + 1;
+                if (nlines < 2) nlines = 2;
+                int height = ((int)Math.ceil(fontSize*nlines*1.));
+
+
+                height = Math.max(height, height2);
+
+                tv_cell.getLayoutParams().height = height;
+                //tv_cell.getLayoutParams().width = width;
+                return tv_cell;
+            }
+        };
         GridView gvOneSheet = (GridView)findViewById(R.id.gridViewOneSheet);
         gvOneSheet.setAdapter(dataAdapter);
     }
