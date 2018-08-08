@@ -204,8 +204,9 @@ public class OneSheetView extends AppCompatActivity {
                 String txt = (String)tv_cell.getText();
                 double txtWidth = fontSize*txt.length()*.8;
                 int nlines = ((int)Math.floor(txtWidth/width)) + 1;
+                double factor = 1.2;
                 if (nlines < 2) nlines = 2;
-                int height = ((int)Math.ceil(fontSize*nlines*1.));
+                int height = ((int)Math.ceil(fontSize*nlines*factor));
 
 
                 height = Math.max(height, height2);
