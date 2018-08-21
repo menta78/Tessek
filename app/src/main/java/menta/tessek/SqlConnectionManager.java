@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -151,6 +152,20 @@ public class SqlConnectionManager implements Serializable {
         finally {
             db.endTransaction();
             db.close();
+        }
+    }
+
+    public String[] getSentences(String sheetId, String aSentenceText){
+        SQLiteDatabase db = getDb();
+        String queryTxt = "SELECT sentence1, sentence2 FROM sheet_data WHERE " +
+                "sheet_id = ? AND (sentence1 = ?) OR (sentence2 = ?)";
+        Cursor cr = db.rawQuery(queryTxt, new String [] {sheetId, aSentenceText, aSentenceText});
+        if (cr.moveToFirst()) {
+            String sentence1 = cr.getString(0);
+            String sentence2 = cr.getString(1);
+            return new String[] {sentence1, sentence2};
+        } else {
+            return new String[] {"", ""};
         }
     }
 

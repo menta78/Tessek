@@ -84,4 +84,8 @@ public class AppData implements Serializable {
         return sqlConnectionManager.getFormula(sheetId, txt1, txt2);
     }
 
+    public String[] getSentences(String sheetId, String aSentenceText) {
+        return sqlConnectionManager.getSentences(sheetId, aSentenceText);
+    }
+
 }

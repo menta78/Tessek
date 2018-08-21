@@ -187,29 +187,24 @@ public class OneSheetView extends AppCompatActivity {
             @Override
             public View getView(int position, View convertView, ViewGroup parent){
 
-                int height2 = 0;
-                if ( (position % 2) == 0 ){
-                    // the other text is likely longer
-                    TextView tv_cellNeigh = (TextView)getView(position + 1, convertView, parent);
-                    height2 = tv_cellNeigh.getLayoutParams().height;
-                }
-
                 TextView tv_cell = (TextView) super.getView(position, convertView, parent);
+                String txt0 = (String)tv_cell.getText();
+
+                String[] sentences = OneSheetView.this.appData.getSentences
+                        (OneSheetView.this.sheetId, txt0);
+                String txt = (sentences[0].length() > sentences[0].length()) ?
+                        sentences[0] : sentences[1];
 
                 Display display = getWindowManager().getDefaultDisplay();
                 Point size = new Point();
                 display.getSize(size);
                 int width = ((int)Math.round(size.x/2.2));
                 float fontSize = tv_cell.getTextSize();
-                String txt = (String)tv_cell.getText();
                 double txtWidth = fontSize*txt.length()*.8;
-                int nlines = ((int)Math.floor(txtWidth/width)) + 1;
+                int nlines = ((int)Math.floor(txtWidth/width)) + 2;
                 double factor = 1.2;
-                if (nlines < 2) nlines = 2;
+                if (nlines < 3) nlines = 3;
                 int height = ((int)Math.ceil(fontSize*nlines*factor));
-
-
-                height = Math.max(height, height2);
 
                 tv_cell.getLayoutParams().height = height;
                 //tv_cell.getLayoutParams().width = width;
